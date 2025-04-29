@@ -1,97 +1,164 @@
+/* Universal Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to right, #74ebd5, #acb6e5);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7fc;
+    color: #333;
+    padding: 40px;
+    line-height: 1.6;
 }
+
+/* Main Container */
 .container {
-  background: #fff;
-  padding: 35px;
-  border-radius: 18px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
-  width: 95%;
-  max-width: 600px;
-  text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    text-align: center;
 }
+
+/* Title */
 h1 {
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 36px;
-  font-weight: 700;
+    font-size: 2.5rem;
+    color: #4CAF50;
+    margin-bottom: 20px;
 }
-h2 {
-  color: #555;
-  margin-top: 20px;
+
+/* Input Fields */
+.form-group {
+    margin-bottom: 25px;
 }
-.input-group {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  margin-bottom: 20px;
+
+.form-group label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: block;
+    color: #333;
+    margin-bottom: 8px;
 }
-.input-group input {
-  flex: 1;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 16px;
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-#utilitiesList {
-  margin-top: 20px;
+
+.form-group input:focus {
+    border-color: #4CAF50;
+    outline: none;
 }
+
+/* Utility Section */
+.utilities-section {
+    margin-top: 30px;
+    text-align: left;
+}
+
+button {
+    padding: 14px;
+    font-size: 1.1rem;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Result Section */
+#result {
+    margin-top: 30px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+#result h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #4CAF50;
+}
+
+#result p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+/* Utility Item Styles */
 .utility-item {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: center;
 }
+
 .utility-item input {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 14px;
+    width: 40%;
+    padding: 10px;
+    font-size: 1rem;
+    margin-right: 10px;
 }
-.delete-btn {
-  background: #f44336;
-  border: none;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.3s;
+
+.utility-item button {
+    background-color: #ff4747;
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
-.delete-btn:hover {
-  background: #c62828;
+
+.utility-item button:hover {
+    background-color: #e63c3c;
 }
-.btn {
-  padding: 12px 25px;
-  margin-top: 15px;
-  border: none;
-  border-radius: 12px;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-.btn-blue { background: #2196f3; }
-.btn-green { background: #4caf50; }
-.btn:hover { opacity: 0.85; }
-#result { margin-top: 30px; transition: all 0.5s ease; }
-.hidden { display: none; }
-.popup {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #4caf50;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 10px;
-  font-weight: bold;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  z-index: 1000;
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    button {
+        padding: 12px;
+    }
+
+    .utility-item input {
+        width: 60%;
+    }
+
+    .form-group input {
+        font-size: 1rem;
+        padding: 10px;
+    }
 }
