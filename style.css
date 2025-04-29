@@ -98,49 +98,51 @@ button:disabled {
     box-shadow: none;
 }
 
-/* Utility Section */
-.utilities-section {
-    margin-top: 30px;
-}
-
+/* Utility Section Styling (Fixed & Additional) */
 .utility-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 16px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 12px 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.utility-item input {
+.utility-item input[type="text"],
+.utility-item input[type="number"] {
     flex: 1;
-    padding: 10px;
-    font-size: 1rem;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
     border-radius: 10px;
-    border: 2px solid #ccc;
-    background-color: #fafafa;
+    background-color: #f9f9f9;
+    font-size: 1rem;
     transition: border-color 0.3s ease;
 }
 
 .utility-item input:focus {
     border-color: #4caf50;
     outline: none;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
 }
 
-.utility-item button {
+.utility-item .delete-btn {
     background-color: #f44336;
     color: white;
-    font-size: 1.2rem;
-    width: 30px;
-    height: 30px;
+    font-size: 1rem;
+    width: 36px;
+    height: 36px;
     border: none;
     border-radius: 50%;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.utility-item button:hover {
+.utility-item .delete-btn:hover {
     background-color: #e53935;
 }
 
