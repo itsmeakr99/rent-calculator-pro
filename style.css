@@ -127,16 +127,18 @@ button:disabled {
 .utility-item button {
     background-color: #ff4747;
     color: #fff;
-    font-size: 1.1rem;
-    padding: 6px 12px; /* Adjusted padding for a smaller button */
+    font-size: 1rem;  /* Adjust font size to match button size */
+    padding: 5px 10px;  /* Smaller padding */
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 32px;  /* Added specific width */
-    height: 32px; /* Added specific height */
+    width: 24px;  /* Smaller width */
+    height: 24px; /* Smaller height */
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: bold;
+    line-height: 1;
 }
 
 .utility-item button:hover {
