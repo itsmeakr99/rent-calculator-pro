@@ -20,17 +20,17 @@ body {
 .container {
     max-width: 900px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(14px);
     border-radius: 20px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 50px;
     transition: transform 0.3s ease;
 }
 
 /* Hover effect for the main container */
 .container:hover {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
 }
 
 h1 {
@@ -84,7 +84,7 @@ button {
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px; /* This adds space between buttons */
+    margin-bottom: 20px;
 }
 
 button:hover {
@@ -108,159 +108,4 @@ button:disabled {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-}
-
-.utility-item input {
-    flex: 1;
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 10px;
-    border: 2px solid #ccc;
-    background-color: #fafafa;
-    transition: border-color 0.3s ease;
-}
-
-.utility-item input:focus {
-    border-color: #4caf50;
-    outline: none;
-}
-
-.utility-item button {
-    background-color: #f44336;
-    color: white;
-    font-size: 1.2rem;
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.utility-item button:hover {
-    background-color: #e53935;
-}
-
-/* Result Section */
-#result {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 2px solid #e0e0e0;
-    text-align: center;
-}
-
-#result h3 {
-    font-size: 2.2rem;
-    color: #388e3c;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-#result p {
-    font-size: 1.5rem;
-    color: #333;
-}
-
-/* Success Popup (Toast Message) */
-#successMessage {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #4caf50;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 12px;
-    font-size: 1.2rem;
-    opacity: 0;
-    transform: translateY(-10px);
-    pointer-events: none;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    transition: opacity 0.4s ease, transform 0.3s ease;
-}
-
-#successMessage.show {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-
-#successMessage p {
-    font-size: 1.2rem;
-    margin: 0;
-}
-
-/* PDF Button Spacing */
-#downloadPDFButton {
-    width: 100%;
-    padding: 14px;
-    background: #2196f3;
-    border: none;
-    color: white;
-    border-radius: 12px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    margin-top: 30px; /* Adds space between PDF button and other elements */
-}
-
-#downloadPDFButton:hover {
-    background: #1976d2;
-    transform: translateY(-4px);
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-    body {
-        background: linear-gradient(to top, #121212, #333);
-        color: #fff;
-    }
-
-    .container {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(15px);
-    }
-
-    .form-group input {
-        background-color: #444;
-        border: 2px solid #555;
-        color: #fff;
-    }
-
-    .form-group input:focus {
-        border-color: #81c784;
-        box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
-    }
-
-    button {
-        background: linear-gradient(45deg, #388e3c, #66bb6a);
-        color: white;
-    }
-
-    button:hover {
-        background: linear-gradient(45deg, #43a047, #66bb6a);
-    }
-
-    #successMessage {
-        background-color: #388e3c;
-    }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .container {
-        padding: 30px 20px;
-    }
-
-    h1 {
-        font-size: 2.4rem;
-    }
-
-    button {
-        font-size: 1rem;
-    }
-}
+    gap: 10px;
