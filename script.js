@@ -74,36 +74,47 @@ document.addEventListener('DOMContentLoaded', () => {
     resultSection.classList.remove('hidden');
   }
 
-  function downloadPDF() {
-    const downloadBtn = document.getElementById('downloadBtn');
+function downloadPDF() {
+  const downloadBtn = document.getElementById('downloadBtn');
 
-    // Hide the Download PDF button temporarily
-    downloadBtn.style.display = 'none';
+  // Hide the Download PDF button temporarily
+  downloadBtn.style.display = 'none';
 
-    // Create PDF with tabular roommate names and cost
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
 
-    doc.setFontSize(18);
-    doc.text('Rent Split Summary', 20, 20);
+  doc.setFontSize(18);
+  doc.text('Rent Split Summary', 20, 20);
 
-    const tableData = [
-      ['Roommate', 'Cost per Person ($)'],
-      ...roommateNames.map(name => [name, document.getElementById('costPerPerson').textContent.replace('$', '')])
-    ];
+  const totalCost = document.getElementById('totalCost').textContent || "$0.00";
+  const costPerPerson = document.getElementById('costPerPerson').textContent.replace('$', '') || "0.00";
 
-    doc.autoTable({
-      head: [tableData[0]],
-      body: tableData.slice(1),
-      startY: 30,
-      theme: 'striped'
-    });
+  const tableData = [
+    ['Roommate', 'Cost per Person ($)'],
+    ...roommateNames.map(name => [name, costPerPerson])
+  ];
 
-    doc.save('Rent-Split-Bill.pdf');
+  doc.autoTable({
+    head: [tableData[0]],
+    body: tableData.slice(1),
+    startY: 40,
+    theme: 'striped',
+    styles: {
+      fontSize: 12,
+      cellPadding: 4
+    }
+  });
 
-    // Show the Download PDF button back after saving
-    downloadBtn.style.display = 'inline-block';
-  }
+  // Show total cost at the bottom
+  doc.setFontSize(14);
+  doc.text(`Total Rent (Including Utilities): ${totalCost}`, 20, doc.lastAutoTable.finalY + 20);
+
+  doc.save('Rent-Split-Bill.pdf');
+
+  // Show the Download PDF button again
+  downloadBtn.style.display = 'inline-block';
+}
+
 
   addUtilityBtn.addEventListener('click', () => createUtilityField());
   calculateBtn.addEventListener('click', calculateRent);
