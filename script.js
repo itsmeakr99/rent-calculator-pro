@@ -75,7 +75,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function downloadPDF() {
-    html2pdf().from(resultSection).save('Rent-Split-Bill.pdf');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    // Hide the Download PDF button temporarily
+    downloadBtn.style.display = 'none';
+
+    // Create PDF with tabular roommate names and cost
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text('Rent Split Summary', 20, 20);
+
+    const tableData = [
+      ['Roommate', 'Cost per Person ($)'],
+      ...roommateNames.map(name => [name, document.getElementById('costPerPerson').textContent.replace('$', '')])
+    ];
+
+    doc.autoTable({
+      head: [tableData[0]],
+      body: tableData.slice(1),
+      startY: 30,
+      theme: 'striped'
+    });
+
+    doc.save('Rent-Split-Bill.pdf');
+
+    // Show the Download PDF button back after saving
+    downloadBtn.style.display = 'inline-block';
   }
 
   addUtilityBtn.addEventListener('click', () => createUtilityField());
