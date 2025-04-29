@@ -76,15 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function downloadPDF() {
   const downloadBtn = document.getElementById('downloadBtn');
-
-  // Hide the Download PDF button temporarily
   downloadBtn.style.display = 'none';
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
+  const pageWidth = doc.internal.pageSize.getWidth();
+
+  // Centered title
+  const title = 'Rent Split Summary';
+  const titleWidth = doc.getTextWidth(title);
   doc.setFontSize(18);
-  doc.text('Rent Split Summary', 20, 20);
+  doc.text(title, (pageWidth - titleWidth) / 2, 20);
 
   const totalCost = document.getElementById('totalCost').textContent || "$0.00";
   const costPerPerson = document.getElementById('costPerPerson').textContent.replace('$', '') || "0.00";
@@ -97,21 +100,23 @@ function downloadPDF() {
   doc.autoTable({
     head: [tableData[0]],
     body: tableData.slice(1),
-    startY: 40,
+    startY: 30,
     theme: 'striped',
-    styles: {
-      fontSize: 12,
-      cellPadding: 4
-    }
+    styles: { fontSize: 12 }
   });
 
-  // Show total cost at the bottom
+  // Add total summary below the table
+  const finalY = doc.lastAutoTable.finalY + 10;
   doc.setFontSize(14);
-  doc.text(`Total Rent (Including Utilities): ${totalCost}`, 20, doc.lastAutoTable.finalY + 20);
+  doc.text(`Total Rent (Including Utilities): ${totalCost}`, 20, finalY);
+
+  // Add footer note at bottom
+  const footerNote = 'Generated using Rent Calculator by itsmeakr99.github.io';
+  doc.setFontSize(10);
+  doc.setTextColor(150);
+  doc.text(footerNote, pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
 
   doc.save('Rent-Split-Bill.pdf');
-
-  // Show the Download PDF button again
   downloadBtn.style.display = 'inline-block';
 }
 
