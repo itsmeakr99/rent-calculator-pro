@@ -128,10 +128,15 @@ button:disabled {
     background-color: #ff4747;
     color: #fff;
     font-size: 1.1rem;
-    padding: 8px;
+    padding: 6px 12px; /* Adjusted padding for a smaller button */
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 32px;  /* Added specific width */
+    height: 32px; /* Added specific height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .utility-item button:hover {
