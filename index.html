@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rent Splitter Pro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🏡 Rent Splitter Pro</h1>
+    <div class="input-group">
+      <input type="number" id="baseRent" placeholder="Enter Base Rent ($)">
+      <input type="number" id="roommates" placeholder="Number of Roommates">
+    </div>
+
+    <h2>Utilities</h2>
+    <div id="utilitiesList"></div>
+    <button id="addUtilityBtn" class="btn btn-blue">Add Utility ➕</button>
+
+    <div>
+      <button id="calculateBtn" class="btn btn-green">Calculate Rent ✅</button>
+    </div>
+
+    <div id="result" class="hidden">
+      <h2>💵 Results</h2>
+      <p><strong>Total Monthly Cost:</strong> <span id="totalCost"></span></p>
+      <p><strong>Cost Per Person:</strong> <span id="costPerPerson"></span></p>
+      <div id="roommateNames"></div>
+      <button id="downloadBtn" class="btn btn-blue">Download Bill as PDF 📄</button>
+    </div>
+  </div>
+
+  <div id="popup" class="popup hidden">Calculation Complete ✅</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
