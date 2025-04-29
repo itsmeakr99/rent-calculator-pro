@@ -98,6 +98,10 @@ button:disabled {
     box-shadow: none;
 }
 
+#addUtilityButton, #calculateButton {
+    margin-top: 20px;
+}
+
 /* Utility Section */
 .utilities-section {
     margin-top: 30px;
