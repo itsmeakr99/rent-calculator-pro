@@ -1,46 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rent Calculator</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Rent Calculator</h1>
-
-        <div class="form-group">
-            <label for="baseRent">Base Rent ($):</label>
-            <input type="number" id="baseRent" placeholder="Enter base rent">
-        </div>
-
-        <div class="form-group">
-            <label for="roommates">Number of Roommates:</label>
-            <input type="number" id="roommates" placeholder="Enter number of roommates">
-        </div>
-
-        <div class="utilities-section">
-            <h3>Fixed Utilities</h3>
-            <div id="utilitiesList"></div>
-            <button id="addUtilityBtn">Add Utility</button>
-        </div>
-
-        <button id="calculateBtn">Calculate Rent</button>
-
-        <div id="result" class="hidden">
-            <h3>Result</h3>
-            <p>Total Rent (including utilities): <span id="totalCost">$0.00</span></p>
-            <p>Cost per person: <span id="costPerPerson">$0.00</span></p>
-            <div id="roommateNames"></div>
-            <button id="downloadBtn">Download Bill as PDF</button>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
-    <script src="script.js"></script>
+    <!-- Add jsPDF and AutoTable libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.27/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="styles.css"> <!-- Your CSS file -->
+</head>
 
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Rent Calculator</h1>
+    </header>
+
+    <!-- Main form to input roommate details -->
+    <section id="form-section">
+        <label for="numRoommates">Number of Roommates:</label>
+        <input type="number" id="numRoommates" min="1" placeholder="Enter number of roommates">
+        <button onclick="generateRoommateInputs()">Generate Inputs</button>
+
+        <div id="roommates-container"></div>
+
+        <button onclick="calculate()">Calculate Split</button>
+    </section>
+
+    <!-- Section to show the results of the rent calculation -->
+    <section id="result-section">
+        <h2>Calculated Results</h2>
+        <div id="result"></div>
+
+        <!-- Button to trigger PDF download -->
+        <button id="downloadPDFButton" onclick="downloadPDF()">Download as PDF</button>
+    </section>
+
+    <!-- JavaScript for PDF Generation and Calculations -->
+    <script>
+        // Generate input fields for roommates based on the number entered
+        function generateRoommateInputs() {
+            const numRoommates = document.getElementById('numRoommates').value;
+            const container = document.getElementById('roommates-container');
+            container.innerHTML = ''; // Clear any previous inputs
+
+            for (let i = 0; i < numRoommates; i++) {
+                const roommateInput = document.createElement('div');
+                roommateInput.className = 'roommate-input';
+
+                const inputName = document.createElement('input');
+                inputName.type = 'text';
+                inputName.placeholder = `Roommate ${i + 1} Name`;
+                roommateInput.appendChild(inputName);
+
+                const inputCost = document.createElement('input');
+                inputCost.type = 'number';
+                inputCost.placeholder = `Roommate ${i + 1} Cost`;
+                roommateInput.appendChild(inputCost);
+
+                container.appendChild(roommateInput);
+            }
+        }
+
+        // Calculate and display the rent split
+        function calculate() {
+            const resultDiv = document.getElementById('result');
+            const roommateInputs = document.querySelectorAll('.roommate-input');
+            const roommates = [];
+            let totalCost = 0;
+
+            roommateInputs.forEach((input, index) => {
+                const name = input.querySelector('input[type="text"]').value;
+                const cost = parseFloat(input.querySelector('input[type="number"]').value);
+
+                if (name && !isNaN(cost)) {
+                    roommates.push({ name, cost });
+                    totalCost += cost;
+                }
+            });
+
+            const costPerPerson = totalCost / roommates.length;
+            resultDiv.innerHTML = '<h3>Summary</h3><ul>';
+
+            roommates.forEach(roommate => {
+                resultDiv.innerHTML += `<li>${roommate.name}: $${roommate.cost} (Total: $${costPerPerson})</li>`;
+            });
+
+            resultDiv.innerHTML += `</ul><h3>Total Rent: $${totalCost}</h3><h3>Cost per Person: $${costPerPerson}</h3>`;
+        }
+
+        // Function to download the rent split results as a PDF
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Add the logo or header (adjust the path and size as needed)
+            doc.addImage('path_to_your_logo.png', 'PNG', 15, 10, 40, 40); // Adjust this for your logo
+
+            // Set up title for PDF
+            doc.setFontSize(18);
+            doc.text("Rent Calculation Report", 60, 20);
+            doc.setFontSize(12);
+            doc.text("Generated on: " + new Date().toLocaleDateString(), 60, 30);
+
+            // Prepare data to display in table
+            const result = document.getElementById('result');
+            const roommateNames = result.querySelectorAll('.roommate-name');
+            const roommateCosts = result.querySelectorAll('.roommate-cost');
+
+            // Create the table data
+            const tableData = [];
+            for (let i = 0; i < roommateNames.length; i++) {
+                tableData.push([roommateNames[i].textContent, roommateCosts[i].textContent]);
+            }
+
+            // Define the table columns
+            const columns = ["Roommate", "Cost per Person"];
+
+            // Add the table to the PDF
+            doc.autoTable({
+                head: [columns],
+                body: tableData,
+                startY: 50, // Start the table at a specific Y position
+                margin: { horizontal: 10 },
+                styles: { fontSize: 12 },
+                theme: 'grid', // Optional, adds grid lines
+            });
+
+            // Add footer with a message or your signature
+            doc.setFontSize(10);
+            doc.text("Generated by Rent Calculator", 15, doc.internal.pageSize.height - 10);
+
+            // Save the PDF file
+            doc.save('rent_calculation_report.pdf');
+        }
+    </script>
 </body>
+
 </html>
