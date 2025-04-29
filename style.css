@@ -84,7 +84,7 @@ button {
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* This adds space between buttons */
 }
 
 button:hover {
@@ -96,10 +96,6 @@ button:disabled {
     background: #e0e0e0;
     cursor: not-allowed;
     box-shadow: none;
-}
-
-#addUtilityButton, #calculateButton {
-    margin-top: 20px;
 }
 
 /* Utility Section */
@@ -194,6 +190,27 @@ button:disabled {
 #successMessage p {
     font-size: 1.2rem;
     margin: 0;
+}
+
+/* PDF Button Spacing */
+#downloadPDFButton {
+    width: 100%;
+    padding: 14px;
+    background: #2196f3;
+    border: none;
+    color: white;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 30px; /* Adds space between PDF button and other elements */
+}
+
+#downloadPDFButton:hover {
+    background: #1976d2;
+    transform: translateY(-4px);
 }
 
 /* Dark Mode Support */
