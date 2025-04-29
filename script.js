@@ -1,10 +1,15 @@
-window.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+  const utilitiesList = document.getElementById('utilitiesList');
+  const calculateBtn = document.getElementById('calculateBtn');
+  const addUtilityBtn = document.getElementById('addUtilityBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const resultSection = document.getElementById('result');
+  const roommateNamesDiv = document.getElementById('roommateNames');
+
   let utilityCount = 0;
-  let roommates = 0;
   let roommateNames = [];
 
-  const utilitiesList = document.getElementById('utilitiesList');
-
+  // Fixed default utilities
   const defaultUtilities = [
     { name: "Utilities", cost: 0 },
     { name: "Valet Trash Fee", cost: 0 },
@@ -15,80 +20,65 @@ window.addEventListener('DOMContentLoaded', () => {
     { name: "Renters Insurance", cost: 0 }
   ];
 
-  defaultUtilities.forEach(util => addUtility(util.name, util.cost));
-
-  function addUtility(name = '', cost = 0) {
+  function createUtilityField(name = '', cost = 0) {
     const div = document.createElement('div');
     div.className = 'utility-item';
-    div.innerHTML = \`
-      <input type="text" placeholder="Utility Name" id="utility-name-\${utilityCount}" value="\${name}">
-      <input type="number" placeholder="Cost ($)" id="utility-cost-\${utilityCount}" value="\${cost}">
+    div.innerHTML = `
+      <input type="text" id="utility-name-${utilityCount}" value="${name}" placeholder="Utility Name">
+      <input type="number" id="utility-cost-${utilityCount}" value="${cost}" placeholder="Cost ($)">
       <button class="delete-btn" onclick="this.parentElement.remove()">❌</button>
-    \`;
+    `;
     utilitiesList.appendChild(div);
     utilityCount++;
   }
 
+  // Load fixed utilities first
+  defaultUtilities.forEach(utility => createUtilityField(utility.name, utility.cost));
+
   function calculateRent() {
     const baseRent = parseFloat(document.getElementById('baseRent').value) || 0;
-    roommates = parseInt(document.getElementById('roommates').value) || 1;
+    const roommates = parseInt(document.getElementById('roommates').value) || 1;
 
     if (roommates <= 0) {
-      alert("Roommates must be at least 1.");
+      alert('Number of roommates must be at least 1.');
       return;
     }
 
     roommateNames = [];
     for (let i = 0; i < roommates; i++) {
-      let name = prompt(\`Enter name of roommate \${i + 1}:\`);
-      if (name) {
-        roommateNames.push(name.trim());
-      } else {
-        roommateNames.push(\`Roommate \${i + 1}\`);
-      }
+      const name = prompt(`Enter the name of roommate ${i + 1}:`);
+      roommateNames.push(name || `Roommate ${i + 1}`);
     }
 
-    let totalUtilities = 0;
+    let totalUtilitiesCost = 0;
     for (let i = 0; i < utilityCount; i++) {
-      const costInput = document.getElementById(\`utility-cost-\${i}\`);
-      if (costInput && costInput.value) {
-        totalUtilities += parseFloat(costInput.value) || 0;
+      const costInput = document.getElementById(`utility-cost-${i}`);
+      if (costInput && !isNaN(costInput.value)) {
+        totalUtilitiesCost += parseFloat(costInput.value) || 0;
       }
     }
 
-    const totalCost = baseRent + totalUtilities;
+    const totalCost = baseRent + totalUtilitiesCost;
     const costPerPerson = totalCost / roommates;
 
-    document.getElementById('totalCost').textContent = \`$\${totalCost.toFixed(2)}\`;
-    document.getElementById('costPerPerson').textContent = \`$\${costPerPerson.toFixed(2)}\`;
+    document.getElementById('totalCost').textContent = `$${totalCost.toFixed(2)}`;
+    document.getElementById('costPerPerson').textContent = `$${costPerPerson.toFixed(2)}`;
 
-    const resultNames = document.getElementById('roommateNames');
-    resultNames.innerHTML = '';
+    roommateNamesDiv.innerHTML = '';
     roommateNames.forEach(name => {
-      const nameDiv = document.createElement('div');
-      nameDiv.textContent = \`\${name}: $\${costPerPerson.toFixed(2)}\`;
-      resultNames.appendChild(nameDiv);
+      const div = document.createElement('div');
+      div.textContent = `${name}: $${costPerPerson.toFixed(2)}`;
+      roommateNamesDiv.appendChild(div);
     });
 
-    document.getElementById('result').classList.remove('hidden');
-    document.getElementById('result').classList.add('show');
-
-    showPopup();
+    resultSection.classList.remove('hidden');
   }
 
-  function showPopup() {
-    const popup = document.getElementById('popup');
-    popup.classList.remove('hidden');
-    setTimeout(() => {
-      popup.classList.add('hidden');
-    }, 2000);
+  function downloadPDF() {
+    html2pdf().from(resultSection).save('Rent-Split-Bill.pdf');
   }
 
-  document.getElementById('addUtilityBtn').addEventListener('click', () => addUtility());
-  document.getElementById('calculateBtn').addEventListener('click', calculateRent);
-
-  document.getElementById('downloadBtn').addEventListener('click', () => {
-    const element = document.getElementById('result');
-    html2pdf().from(element).save('Rent-Split-Bill.pdf');
-  });
+  addUtilityBtn.addEventListener('click', () => createUtilityField());
+  calculateBtn.addEventListener('click', calculateRent);
+  downloadBtn.addEventListener('click', downloadPDF);
 });
