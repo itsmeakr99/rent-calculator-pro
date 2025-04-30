@@ -225,7 +225,7 @@ button:disabled {
     transform: translateY(-4px);
 }
 
-/* Dark Mode Support */
+/* Dark Mode Support 
 @media (prefers-color-scheme: dark) {
     body {
         background: linear-gradient(to top, #121212, #333);
@@ -260,7 +260,7 @@ button:disabled {
     #successMessage {
         background-color: #388e3c;
     }
-}
+}*/
 
 /* Responsive */
 @media (max-width: 768px) {
