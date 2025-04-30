@@ -261,7 +261,7 @@ button:disabled {
 }
 
 /* Responsive */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     body {
         align-items: flex-start;
         overflow-x: hidden;
@@ -278,16 +278,19 @@ button:disabled {
     }
 
     .utility-item {
-        flex-wrap: wrap;
+        flex-wrap: nowrap !important;  /* ⛔️ prevents wrapping on small screens */
+        flex-direction: row;
     }
 
     .utility-item input[type="text"],
     .utility-item input[type="number"] {
-        max-width: 100%;
+        max-width: 40%;
+        min-width: 0;
     }
 
     .utility-item .delete-btn {
-        margin-top: 10px;
+        margin-top: 0px;
+        aligh-self: center;
     }
 
     #result {
