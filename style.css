@@ -116,8 +116,9 @@ button:disabled {
 
 .utility-item input[type="text"],
 .utility-item input[type="number"] {
-    width: 100%;
-    max-width: 40%; /* ✅ keeps input sizes balanced */
+    flex: 1 1 40%;
+    max-width: 40%;
+    min-width: 0;
     padding: 12px;
     border: 2px solid #e0e0e0;
     border-radius: 10px;
@@ -125,6 +126,7 @@ button:disabled {
     font-size: 1rem;
     transition: border-color 0.3s ease;
 }
+
 
 
 .utility-item input:focus {
@@ -277,11 +279,6 @@ button:disabled {
         padding: 10px;
     }
 
-    .utility-item {
-        flex-wrap: nowrap !important;  /* ⛔️ prevents wrapping on small screens */
-        flex-direction: row;
-    }
-
     .utility-item input[type="text"],
     .utility-item input[type="number"] {
         max-width: 40%;
@@ -290,7 +287,7 @@ button:disabled {
 
     .utility-item .delete-btn {
         margin-top: 0px;
-        aligh-self: center;
+        align-self: center;
     }
 
     #result {
@@ -318,3 +315,9 @@ button:disabled {
     margin-bottom: 20px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
 }
+
+.utility-item {
+        flex-wrap: nowrap !important;  /* ⛔️ prevents wrapping on small screens */
+        flex-direction: row;
+        justify-content: space-between;
+    }
