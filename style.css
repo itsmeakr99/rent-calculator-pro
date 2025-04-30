@@ -101,14 +101,16 @@ button:disabled {
 /* Utility Section Styling (Fixed & Additional) */
 .utility-item {
     display: flex;
-    align-items: center;
+    align-items: center; /* already correct */
     gap: 12px;
     margin-bottom: 16px;
     background: #ffffff;
     border-radius: 10px;
-    padding: 12px 16px;
+    padding: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    min-height: 72px; /* fixes vertical misalignment */
 }
+
 
 .utility-item input[type="text"],
 .utility-item input[type="number"] {
@@ -138,6 +140,7 @@ button:disabled {
     cursor: pointer;
     display: flex;
     align-items: center;
+    align-self: center;
     justify-content: center;
     transition: background-color 0.3s ease;
 }
@@ -265,4 +268,12 @@ button:disabled {
     button {
         font-size: 1rem;
     }
+}
+
+.form-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
 }
