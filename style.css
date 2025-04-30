@@ -107,6 +107,7 @@ button:disabled {
     background: #ffffff;
     border-radius: 10px;
     padding: 16px;
+    flex-wrap: wrap;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     min-height: 72px; /* fixes vertical misalignment */
 }
@@ -114,13 +115,14 @@ button:disabled {
 
 .utility-item input[type="text"],
 .utility-item input[type="number"] {
-    flex: 1;
+    flex: 1 1 100%;
     padding: 12px;
     border: 2px solid #e0e0e0;
     border-radius: 10px;
     background-color: #f9f9f9;
     font-size: 1rem;
     transition: border-color 0.3s ease;
+    min-width: 0;
 }
 
 .utility-item input:focus {
@@ -143,6 +145,8 @@ button:disabled {
     align-self: center;
     justify-content: center;
     transition: background-color 0.3s ease;
+    flex-shrink: 0;
+    margin-top: 10px;
 }
 
 .utility-item .delete-btn:hover {
@@ -256,9 +260,28 @@ button:disabled {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
+    body {
+        align-items: flex-start;
+        overflow-x: hidden;
+    }
+    
     .container {
-        padding: 30px 20px;
+        padding: 20px;
+    }
+
+    form-group input,
+    .utility-item input {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    #result {
+        padding: 20px 10px;
+    }
+
+    #result p {
+        font-size: 1.2rem;
     }
 
     h1 {
@@ -267,6 +290,7 @@ button:disabled {
 
     button {
         font-size: 1rem;
+        padding: 12px;
     }
 }
 
