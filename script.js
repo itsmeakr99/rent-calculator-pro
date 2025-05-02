@@ -82,44 +82,71 @@ function downloadPDF() {
   const doc = new jsPDF();
 
   const pageWidth = doc.internal.pageSize.getWidth();
-
-  // Centered title
   const title = 'Rent Split Summary';
   const titleWidth = doc.getTextWidth(title);
   doc.setFontSize(18);
   doc.text(title, (pageWidth - titleWidth) / 2, 20);
 
-  const totalCost = document.getElementById('totalCost').textContent || "$0.00";
-  const costPerPerson = document.getElementById('costPerPerson').textContent.replace('$', '') || "0.00";
+  const baseRent = parseFloat(document.getElementById('baseRent').value) || 0;
+  const roommates = parseInt(document.getElementById('roommates').value) || 1;
 
-  const tableData = [
-    ['Roommate', 'Cost per Person ($)'],
-    ...roommateNames.map(name => [name, costPerPerson])
-  ];
+  // Collect utility inputs
+  const utilities = [];
+  for (let i = 0; i < utilityCount; i++) {
+    const nameInput = document.getElementById(`utility-name-${i}`);
+    const costInput = document.getElementById(`utility-cost-${i}`);
+    if (nameInput && costInput) {
+      const name = nameInput.value.trim();
+      const cost = parseFloat(costInput.value) || 0;
+      if (name) {
+        utilities.push({ name, cost });
+      }
+    }
+  }
+
+  // Build input summary table: Base Rent + Utilities
+  const itemData = [['Item Name', 'Cost ($)']];
+  itemData.push(['Base Rent', baseRent.toFixed(2)]);
+  utilities.forEach(u => itemData.push([u.name, u.cost.toFixed(2)]));
 
   doc.autoTable({
-    head: [tableData[0]],
-    body: tableData.slice(1),
+    head: [itemData[0]],
+    body: itemData.slice(1),
     startY: 30,
+    styles: { fontSize: 12 },
+    theme: 'grid'
+  });
+
+  const totalCost = baseRent + utilities.reduce((sum, u) => sum + u.cost, 0);
+  const costPerPerson = totalCost / roommates;
+  const finalY = doc.lastAutoTable.finalY + 10;
+
+  doc.setFontSize(14);
+  doc.text(`Total Rent: $${totalCost.toFixed(2)}`, 20, finalY);
+  doc.text(`Cost per Person: $${costPerPerson.toFixed(2)}`, 20, finalY + 10);
+
+  // Add roommate cost table (optional — remove if not needed)
+  const roommateData = [['Roommate', 'Cost per Person']];
+  roommateNames.forEach(name => {
+    roommateData.push([name, `$${costPerPerson.toFixed(2)}`]);
+  });
+
+  doc.autoTable({
+    head: [roommateData[0]],
+    body: roommateData.slice(1),
+    startY: finalY + 20,
     theme: 'striped',
     styles: { fontSize: 12 }
   });
 
-  // Add total summary below the table
-  const finalY = doc.lastAutoTable.finalY + 10;
-  doc.setFontSize(14);
-  doc.text(`Total Rent (Including Utilities): ${totalCost}`, 20, finalY);
-
-  // Add footer note at bottom
-  const footerNote = 'Generated using Rent Calculator by itsmeakr99.github.io';
+  // Footer
   doc.setFontSize(10);
   doc.setTextColor(150);
-  doc.text(footerNote, pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
+  doc.text('Generated using Rent Calculator by itsmeakr99.github.io', pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
 
   doc.save('Rent-Split-Bill.pdf');
   downloadBtn.style.display = 'inline-block';
 }
-
 
   addUtilityBtn.addEventListener('click', () => createUtilityField());
   calculateBtn.addEventListener('click', calculateRent);
